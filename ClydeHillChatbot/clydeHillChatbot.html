@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="clydeHillChatbot.css">
+    <title>Chatbot - City Of Clyde Hill</title>
+</head>
+<body>
+    
+    <button class="open-button" onclick="openChat()">Open Chatbot</button>
+    
+    <div class="wrapper">
+        <div class="title">
+            <div class="title-text">Chatbot - City Of Clyde Hill</div>
+            <button class="close-button" onclick="closeChat()">x</button>
+        </div>
+        
+
+        <div id="box">
+
+        </div>
+        
+        
+        <div id="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <div class="typing-area">
+
+            <button type="button" id="voice-button"><i id="micIcon" class="material-icons">mic</i></button>
+            <div class="input-field">
+                <input type="text" id="userInput" placeholder="Type your message" required onkeydown="handleKeyPress(event)">
+                <button id="inputButton" onclick="clearInputAndSend()">Send</button>
+            </div>
+        </div>
+        
+    </div>
+    <script src="clydeHillChatbot.js"></script>
+</body>
+</html>

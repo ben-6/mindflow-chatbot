@@ -1,0 +1,65 @@
+Main entry of nginx is at /etc/nginx/nginx.conf which links the detailed
+conf saved in /etc/nginx/conf.d/
+
+sudo systemctl status nginx
+
+sudo systemctl stop nginx
+
+sudo systemctl start nginx
+
+
+Try to start a local web server on 3000 port to see if nginx can redirect traffic
+Ben/flask has a simple app which print out hello world
+
+nginx logs are in /var/log/nginx/
+
+Debug sequence: first check if nginx can redirect to a static html file. 
+1. replace /etc/nginx/conf.d/nodeapp.conf with the following
+server {
+    listen 80;
+    server_name localhost;
+
+    root /var/www/html;  # Or your desired root directory
+
+    # ... (rest of your configuration)
+}
+2. This block says, when a request to 80, serve pages from /var/www/html/ directory. 
+3. go to the browser, type localhost/index.html, it should show the content from /var/www/html/index.html
+4. type 192.1168.1.60/index.html, this shows the same content. 
+
+Step 2: change the nodeapp.conf to redirect the request to location / to localhost:3000 which runs a flask server
+
+1. replace /etc/nginx/conf.d/nodeapp.conf with the following
+server {
+
+  error_log /var/log/nginx/localhost.error_log debug;
+  location / {
+    proxy_pass http://localhost:3000/;
+  }
+}
+
+server {
+
+  listen 80;
+
+  server_name api.mindflow.ai;
+}
+
+
+2. go to browser, type http://192.168.1.60/, it should show hello world which is served through the flask server in ~/Ben/flask/app.py
+3. (to run the flask server, use python app.py)
+
+
+Check which app is running and listening to a port: 
+netstat -anpe | grep "5000" | grep "LISTEN"
+
+
+curl http://localhost:5000/
+
+curl -d '{"message": "test"}' -H "Content-Type: application/json" -X POST http://192.168.1.60:80/api/
+this command should return reasonable response if the notebook flask app works as expected.
+
+SSL termnation through certbot
+Instructions: https://certbot.eff.org/instructions?ws=nginx&os=ubuntubionic
+
+

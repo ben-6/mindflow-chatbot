@@ -1,0 +1,1 @@
+scrapy crawl city_clyde_hill_spider -s JOBDIR=clyde_hill_6_18
